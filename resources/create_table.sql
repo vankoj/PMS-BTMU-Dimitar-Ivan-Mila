@@ -29,10 +29,11 @@ Create Table Recievers
 
 Create Table Messages
 (
-    IDMessage INT NOT NULL PRIMARY KEY,
+    IDMessage SERIAL NOT NULL PRIMARY KEY,
     UserAccountSender VARCHAR(20),
     IDGroups INT,
     Messages VARCHAR(255),
+    DateSent TIMESTAMP,
     Constraint User_Sender FOREIGN KEY(UserAccountSender)
         REFERENCES Accounts(Username)
         ON UPDATE CASCADE
@@ -41,4 +42,18 @@ Create Table Messages
         REFERENCES GroupChat(IDGroup)
         ON UPDATE CASCADE
         ON DELETE CASCADE
+);
+Create Table Friendship
+(
+    UserRequest varchar(20),
+    UserRecieve varchar(20),
+    Status int,
+    CONSTRAINT Friendship_Status FOREIGN KEY(Status)
+        REFERENCES Status(ID)
+
+);
+Create Table Status
+(
+    ID SERIAL not null primary key,
+    Name_ varchar(50)
 );
