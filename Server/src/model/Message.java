@@ -6,16 +6,16 @@ import java.util.Objects;
 public class Message {
     private int id;
     private Account sender;
-    private Collection<Account> receivers;
+    private Chat chat;
     private String message;
 
     public Message() {
     }
 
-    public Message(int id, Account sender, Collection<Account> receivers, String message) {
+    public Message(int id, Account sender, Chat chat, String message) {
         this.id = id;
         this.sender = sender;
-        this.receivers = receivers;
+        this.chat = chat;
         this.message = message;
     }
 
@@ -35,12 +35,12 @@ public class Message {
         this.sender = sender;
     }
 
-    public Collection<Account> getReceivers() {
-        return receivers;
+    public Chat getChat() {
+        return chat;
     }
 
-    public void setReceivers(Collection<Account> receivers) {
-        this.receivers = receivers;
+    public void setChat(Chat chat) {
+        this.chat = chat;
     }
 
     public String getMessage() {
@@ -69,7 +69,7 @@ public class Message {
         return "Message{" +
                 "id=" + id +
                 ", sender=" + sender +
-                ", receivers=" + receivers +
+                ", chat=" + chat +
                 ", message='" + message + '\'' +
                 '}';
     }
