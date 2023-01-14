@@ -1,39 +1,33 @@
+import io.DatabaseManager;
+import model.command.Command;
+import model.command.SendMessageCommand;
+import model.enums.CommandType;
+import parsers.MessageParser;
+
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Random;
 import java.util.Scanner;
 
+// Example communication:
+// me:
+//     send_msg sender receiver My message
+// server:
+//     My message
 public class Server {
     private static String getWeather() {
         String[] weather = {"Cold", "Warm", "Wet", "Cloudy", "Rainy", "Sunny"};
         return weather[new Random().nextInt(5)];
     }
 
-    private static String checkMessage(String message) {
-        switch (message) {
-            case "Good morning, what day it is?":
-                message = "Today is " + LocalDate.now().getDayOfWeek().getValue();
-                break;
-            case "Hello, what time is it?":
-                message = "Now is " + LocalTime.now();
-                break;
-            case "Hello, what is the weather?":
-                message = "The weather is " + getWeather();
-                break;
-            case "Hello what is the temperature?":
-                message = "The temperature is  " + new Random().longs(-15, 30);
-                break;
-            default:
-                message = "Invalid command";
-        }
-        return message;
-    }
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        DatabaseManager.getInstance();
         String ip = "127.0.0.1";
         int port = 5000;
         int backlog = 50;
@@ -54,7 +48,7 @@ public class Server {
                     "\nPort: " + serverSocket.getLocalPort() + "\u001B[0m\n");
 
             System.out.println("\u001B[33mWaiting for client...\u001B[0m\n");
-            socket = serverSocket.accept();
+            socket = serverSocket.accept(); // TODO - accept connections from multiple clients
 
             System.out.println("\u001B[36mAccepted a client request.");
 
@@ -78,7 +72,39 @@ public class Server {
                 System.out.println(message);
                 if (message.equals("exit") || message.equals("quit")) break;
 
-                String reply = checkMessage(message);
+                String reply = "";
+
+                Command command = MessageParser.parse(message);
+                switch (command.getType()) {
+                    case REGISTER:
+                        // TODO - implement
+                        break;
+                    case LOGIN:
+                        // TODO - implement
+                        break;
+                    case LOGOUT:
+                        // TODO - implement
+                        break;
+                    case SEND_MSG:
+                        if (command instanceof SendMessageCommand) {
+                            SendMessageCommand sendMessageCommand = (SendMessageCommand) command;
+                            reply = sendMessageCommand.getMessage();
+                            if (reply == null)
+                                reply = "";
+                        }
+                        break;
+                    case FRIEND_REQ:
+                        // TODO - implement
+                        break;
+                    case INVALID:
+                        // TODO - implement
+                        break;
+                }
+                if (reply.isEmpty()) {
+                    reply = String.format("Received %s command\n", command.getType().toString());
+                    reply += command;
+                }
+
                 System.out.print("me: " + reply);
                 printWriter.println(reply);
                 printWriter.flush();

@@ -46,9 +46,17 @@ public class Client {
             printWriter.flush();
             while (!reply.equals("exit") && !reply.equals("quit")) {
                 System.out.print("\u001B[35mserver: \u001B[0m");
-                String message = bufferReader.readLine();
+                StringBuilder message = new StringBuilder();
+                String line = bufferReader.readLine();
+                if (line == null)
+                    break;
+
+                message.append(line).append("\n");
+                while (bufferReader.ready())
+                    message.append((char) bufferReader.read());
+
                 System.out.println(message);
-                if (message.equals("exit") || message.equals("quit")) {
+                if (message.toString().equals("exit") || message.toString().equals("quit")) {
                     break;
                 }
 
