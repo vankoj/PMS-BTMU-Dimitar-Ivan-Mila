@@ -15,13 +15,13 @@ CREATE TABLE GroupChat
 
 Create Table Recievers
 (
-    GroupName INT,
+    GroupId INT,
     UserAccountReciever VARCHAR(20),
     Constraint User_Reciever FOREIGN KEY(UserAccountReciever)
         REFERENCES Accounts(Username)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
-    Constraint User_Group FOREIGN KEY(GroupName)
+    Constraint User_Group FOREIGN KEY(GroupId)
         REFERENCES GroupChat(IDGroup)
         ON UPDATE CASCADE
         ON DELETE CASCADE
