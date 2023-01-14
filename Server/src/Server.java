@@ -20,6 +20,10 @@ import java.util.Scanner;
 //     send_msg sender receiver My message
 // server:
 //     My message
+// me:
+//     send_msg sender receiver Good morning, what day is it?
+// server:
+//     Today is saturday
 public class Server {
     private static String getWeather() {
         String[] weather = {"Cold", "Warm", "Wet", "Cloudy", "Rainy", "Sunny"};
@@ -88,7 +92,7 @@ public class Server {
                     case SEND_MSG:
                         if (command instanceof SendMessageCommand) {
                             SendMessageCommand sendMessageCommand = (SendMessageCommand) command;
-                            reply = sendMessageCommand.getMessage();
+                            reply = MessageParser.parseTestMessage(sendMessageCommand.getMessage());
                             if (reply == null)
                                 reply = "";
                         }
