@@ -49,4 +49,12 @@ public class Command {
     public int hashCode() {
         return Objects.hash(type);
     }
+
+    @Override
+    public String toString() {
+        return "Command{" +
+                "type=" + type +
+                ", payload='" + payload + '\'' +
+                '}';
+    }
 }
