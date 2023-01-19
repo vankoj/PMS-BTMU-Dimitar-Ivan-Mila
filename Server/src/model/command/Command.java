@@ -37,6 +37,10 @@ public class Command {
         this.payload = payload;
     }
 
+    public String serialize() {
+        return type.getCommand() + " " + payload;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

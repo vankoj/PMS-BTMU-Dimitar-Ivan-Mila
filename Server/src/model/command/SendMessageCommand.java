@@ -13,8 +13,12 @@ public class SendMessageCommand extends Command {
         super(CommandType.SEND_MSG, payload);
     }
 
-    public SendMessageCommand(CommandType type, String payload, String username, String chatName, String message) {
-        super(type, payload);
+    public SendMessageCommand(String username, String chatName, String message) {
+        this(null, username, chatName, message);
+    }
+
+    public SendMessageCommand(String payload, String username, String chatName, String message) {
+        super(CommandType.SEND_MSG, payload);
         this.username = username;
         this.chatName = chatName;
         this.message = message;

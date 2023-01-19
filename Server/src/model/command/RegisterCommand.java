@@ -13,6 +13,10 @@ public class RegisterCommand extends Command {
         super(CommandType.REGISTER, payload);
     }
 
+    public RegisterCommand(String username, String email, String password) {
+        this(null, username, email, password);
+    }
+
     public RegisterCommand(String payload, String username, String email, String password) {
         super(CommandType.REGISTER, payload);
         this.username = username;

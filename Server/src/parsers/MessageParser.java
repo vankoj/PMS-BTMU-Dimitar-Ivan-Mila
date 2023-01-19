@@ -65,7 +65,7 @@ public class MessageParser {
         String username = parts[0];
         String password = payload.substring(username.length() + 1);
 
-        result.setUsername(username);
+        result.setEmail(username);
         result.setPassword(password);
 
         return result;

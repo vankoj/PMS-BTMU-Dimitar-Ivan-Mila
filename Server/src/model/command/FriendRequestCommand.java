@@ -14,6 +14,10 @@ public class FriendRequestCommand extends Command {
         super(CommandType.FRIEND_REQ, payload);
     }
 
+    public FriendRequestCommand(String username, String friendUsername, FriendRequestStatus status) {
+        this(null, username, friendUsername, status);
+    }
+
     public FriendRequestCommand(String payload, String username, String friendUsername, FriendRequestStatus status) {
         super(CommandType.FRIEND_REQ, payload);
         this.username = username;
