@@ -29,7 +29,12 @@ public class AcceptClient implements Runnable {
             System.out.println("\u001B[33mWaiting for client...\u001B[0m\n");
             socket = this.serverSocket.accept();
 
-            Class.forName("Server").getMethod("addClient").invoke(null); // TODO - don't use reflection
+            // call addClient() from Server class with reflection
+            Class<?> serverClass = Class.forName("Server");
+            Field field = serverClass.getField("clientsConnected");
+            field.setAccessible(true);
+            field.set(serverClass, (Integer) field.get(serverClass) + 1);
+            serverClass.getMethod("addClient").invoke(serverClass);
 
             System.out.println("\u001B[36mAccepted a client request.");
 
@@ -104,6 +109,8 @@ public class AcceptClient implements Runnable {
          InterruptedException | IllegalAccessException
                         ex) {
             ex.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
         } finally {
             try {
                 Field f = Class.forName("Server").getDeclaredField("clientsConnected");
